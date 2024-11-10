@@ -4,12 +4,5 @@ spring:
   security:
     oauth2:
       resourceserver:
-        opaque-token:
-          introspection-uri: http://localhost:8080/realms/reports-realm/protocol/openid-connect/token/introspect
-          client-id: reports-api
-          client-secret: oNwoLQdvJAvRcL89SydqCWCe5ry1jMgq
-logging:
-  level:
-    org:
-      springframework:
-        security: DEBUG
+        jwt:
+          jwk-set-uri: http://localhost:8080/realms/reports-realm/protocol/openid-connect/certs
