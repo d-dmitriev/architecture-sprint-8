@@ -9,5 +9,4 @@ RUN addgroup --system javauser && adduser -S -s /usr/sbin/nologin -G javauser ja
 COPY --from=builder /build/target/report-1.0-SNAPSHOT.jar app.jar
 RUN chown -R javauser:javauser .
 USER javauser
-ENV PG_HOST=localhost
 ENTRYPOINT ["java", "-jar", "app.jar"]

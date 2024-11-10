@@ -44,5 +44,7 @@ services:
     build:
       context: ./API
       dockerfile: Dockerfile
+    environment:
+      JWKS_URI: http://keycloak:8080/realms/reports-realm/protocol/openid-connect/certs
     ports:
       - "8000:8000"
