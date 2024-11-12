@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -27,7 +26,6 @@ import java.util.stream.Collectors;
 import static org.springframework.security.authorization.AuthorityReactiveAuthorizationManager.hasAuthority;
 
 @Configuration
-@EnableWebFluxSecurity
 public class SecurityConfiguration {
     @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
     String jwkSetUri;
@@ -73,14 +71,14 @@ public class SecurityConfiguration {
 
     static class GrantedAuthoritiesExtractor implements Converter<Jwt, Collection<GrantedAuthority>> {
         public Collection<GrantedAuthority> convert(Jwt jwt) {
-            Map<?, ?> authorities = (Map<?, ?>)
-                    jwt.getClaims().get("realm_access");
+            Map<?, List<?>> authorities = (Map<?, List<?>>)
+                    jwt.getClaims().getOrDefault("realm_access", Collections.emptyMap());
 
-            List<?> roles = (List<?>) authorities.get("roles");
+            List<?> roles = authorities.getOrDefault("roles", Collections.emptyList());
 
             return roles.stream()
                     .map(Object::toString)
-                    .map(SimpleGrantedAuthority::new)
+                    .map(RoleGrantedAuthority::new)
                     .collect(Collectors.toList());
         }
     }
