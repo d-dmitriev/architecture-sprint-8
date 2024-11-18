@@ -3,6 +3,6 @@ FROM node:current-alpine
 WORKDIR /usr/src/app
 
 COPY . .
-RUN npm install --production
+RUN npm ci
 
 CMD ["npm","start"]
