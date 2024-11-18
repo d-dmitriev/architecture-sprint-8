@@ -52,6 +52,9 @@ services:
   #     - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWK_SET_URI=http://keycloak:8080/realms/reports-realm/protocol/openid-connect/certs
   #   ports:
   #     - "8000:8000"
+  #   depends_on:
+  #     - keycloak
+  #     - keycloak_db
   backend:
     build:
       context: ./quarkus
