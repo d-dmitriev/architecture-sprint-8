@@ -1,8 +1,7 @@
 package ru.yandex.practicum.report.controller;
 
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import ru.yandex.practicum.report.dto.ReportDto;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,12 +11,11 @@ import java.util.UUID;
 @RestController
 public class ReportController {
     @GetMapping("reports")
-    public Flux<ReportDto> getReports() {
-        List<ReportDto> list = new ArrayList<>();
+    public Mono<List<String>> getReports() {
+        List<String> list = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            ReportDto item = new ReportDto(UUID.randomUUID(), LocalDateTime.now());
-            list.add(item);
+            list.add(UUID.randomUUID().toString());
         }
-        return Flux.fromIterable(list);
+        return Mono.just(list);
     }
 }
