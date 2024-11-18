@@ -40,40 +40,40 @@ services:
       REACT_APP_KEYCLOAK_URL: http://localhost:8080
       REACT_APP_KEYCLOAK_REALM: reports-realm
       REACT_APP_KEYCLOAK_CLIENT_ID: reports-frontend
-  backend:
-    build:
-      context: ./API
-      dockerfile: Dockerfile
-    environment:
-      - APP_ROLE_REPORTS=ROLE_prothetic_user
-      - APP_HTTP_CORS_HEADERS=authorization
-      - APP_HTTP_CORS_METHODS=GET
-      - APP_OIDS_AUTH_SERVER_URLS=http://localhost:3000
-      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWK_SET_URI=http://keycloak:8080/realms/reports-realm/protocol/openid-connect/certs
-    ports:
-      - "8000:8000"
   # backend:
   #   build:
-  #     context: ./quarkus
-  #     dockerfile: Dockerfile.native-micro
+  #     context: ./API
+  #     dockerfile: Dockerfile
   #   environment:
-  #     - QUARKUS_OIDC_AUTH_SERVER_URL=http://keycloak:8080/realms/reports-realm
-  #     - QUARKUS_OIDC_APPLICATION_TYPE=service
-  #     - QUARKUS_OIDC_TOKEN_ISSUER=http://localhost:8080/realms/reports-realm
-  #     - QUARKUS_OIDC_CREDENTIALS_JWT_SOURCE=bearer
-  #     - QUARKUS_OIDC_ROLES_SOURCE=accesstoken #default for service
-  #     - QUARKUS_OIDC_ROLES_ROLE_CLAIM_PATH=realm_access/roles
-  #     - APP_ROLE_REPORTS=prothetic_user #,administrator
-  #     - QUARKUS_HTTP_CORS=true
-  #     - QUARKUS_HTTP_CORS_ORIGINS=http://localhost:3000
-  #     - QUARKUS_HTTP_CORS_HEADERS=authorization
-  #     - QUARKUS_HTTP_CORS_METHODS=GET
-  #     # - QUARKUS_LOG_LEVEL=DEBUG
+  #     - APP_ROLE_REPORTS=ROLE_prothetic_user
+  #     - APP_HTTP_CORS_HEADERS=authorization
+  #     - APP_HTTP_CORS_METHODS=GET
+  #     - APP_OIDS_AUTH_SERVER_URLS=http://localhost:3000
+  #     - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWK_SET_URI=http://keycloak:8080/realms/reports-realm/protocol/openid-connect/certs
   #   ports:
-  #     - 8000:8080
-  #   depends_on:
-  #     - keycloak
-  #     - keycloak_db
+  #     - "8000:8000"
+  backend:
+    build:
+      context: ./quarkus
+      dockerfile: Dockerfile.native-micro
+    environment:
+      - QUARKUS_OIDC_AUTH_SERVER_URL=http://keycloak:8080/realms/reports-realm
+      - QUARKUS_OIDC_APPLICATION_TYPE=service
+      - QUARKUS_OIDC_TOKEN_ISSUER=http://localhost:8080/realms/reports-realm
+      - QUARKUS_OIDC_CREDENTIALS_JWT_SOURCE=bearer
+      - QUARKUS_OIDC_ROLES_SOURCE=accesstoken #default for service
+      - QUARKUS_OIDC_ROLES_ROLE_CLAIM_PATH=realm_access/roles
+      - APP_ROLE_REPORTS=prothetic_user #,administrator
+      - QUARKUS_HTTP_CORS=true
+      - QUARKUS_HTTP_CORS_ORIGINS=http://localhost:3000
+      - QUARKUS_HTTP_CORS_HEADERS=authorization
+      - QUARKUS_HTTP_CORS_METHODS=GET
+      # - QUARKUS_LOG_LEVEL=DEBUG
+    ports:
+      - 8000:8080
+    depends_on:
+      - keycloak
+      - keycloak_db
   # backend:
   #   build:
   #     context: ./node
