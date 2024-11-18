@@ -48,25 +48,33 @@ services:
   #     JWKS_URI: http://keycloak:8080/realms/reports-realm/protocol/openid-connect/certs
   #   ports:
   #     - "8000:8000"
+  # backend:
+  #   build:
+  #     context: ./quarkus
+  #     dockerfile: Dockerfile.native-micro
+  #   environment:
+  #     - QUARKUS_OIDC_AUTH_SERVER_URL=http://keycloak:8080/realms/reports-realm
+  #     - QUARKUS_OIDC_APPLICATION_TYPE=service
+  #     - QUARKUS_OIDC_TOKEN_ISSUER=http://localhost:8080/realms/reports-realm
+  #     - QUARKUS_OIDC_CREDENTIALS_JWT_SOURCE=bearer
+  #     - QUARKUS_OIDC_ROLES_SOURCE=accesstoken #default for service
+  #     - QUARKUS_OIDC_ROLES_ROLE_CLAIM_PATH=realm_access/roles
+  #     - APP_ROLE_REPORTS=prothetic_user #,administrator
+  #     - QUARKUS_HTTP_CORS=true
+  #     - QUARKUS_HTTP_CORS_ORIGINS=http://localhost:3000
+  #     - QUARKUS_HTTP_CORS_HEADERS=authorization
+  #     - QUARKUS_HTTP_CORS_METHODS=GET
+  #     # - QUARKUS_LOG_LEVEL=DEBUG
+  #   ports:
+  #     - 8000:8080
+  #   depends_on:
+  #     - keycloak
+  #     - keycloak_db
   backend:
     build:
-      context: ./quarkus
-      dockerfile: Dockerfile.native-micro
-    environment:
-      - QUARKUS_OIDC_AUTH_SERVER_URL=http://keycloak:8080/realms/reports-realm
-      - QUARKUS_OIDC_APPLICATION_TYPE=service
-      - QUARKUS_OIDC_TOKEN_ISSUER=http://localhost:8080/realms/reports-realm
-      - QUARKUS_OIDC_CREDENTIALS_JWT_SOURCE=bearer
-      - QUARKUS_OIDC_ROLES_SOURCE=accesstoken #default for service
-      - QUARKUS_OIDC_ROLES_ROLE_CLAIM_PATH=realm_access/roles
-      - APP_ROLE_REPORTS=prothetic_user #,administrator
-      - QUARKUS_HTTP_CORS=true
-      - QUARKUS_HTTP_CORS_ORIGINS=http://localhost:3000
-      - QUARKUS_HTTP_CORS_HEADERS=authorization
-      - QUARKUS_HTTP_CORS_METHODS=GET
-      # - QUARKUS_LOG_LEVEL=DEBUG
+      context: ./node
     ports:
-      - 8000:8080
+      - 8000:8000
     depends_on:
       - keycloak
       - keycloak_db

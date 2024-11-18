@@ -1,0 +1,7 @@
+{
+  "realm": "reports-realm",
+  "bearer-only": true,
+  "auth-server-url": "http://localhost:8080",
+  "resource": "reports-frontend",
+  "realm-public-key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm6TVnQQg0AIdOpB1sPidcJEVtWjJC2r6ZbSCG2wEkwYTV9p/3uBzI/d+K+WWeMHzaiYcQNmRlL+52ZrVRToQfsSv3I2YaxcSI+Br/sP2JJVVrVgWxDdGwOsqTAmMQeLB1piV/JhmdMTJNHYeRt7QQHl5PocrShmPDT/FQHOycIUpUHKRZ1Q9JJKcx0PxMpdWlNDaamNkkkvJH2cVKwgoAAaWxIk8eYxpzBhakf2rfJh8kFe+ASRFD4eLJa5FL/Yj7HazLg2zgfxL2PYCBiONhspl7/7Bkls4RCWaDNH7XJj6TxBJUj3+Fmz9Qnrd+39gw2leGrlJL1jFfk6NcxESjQIDAQAB"
+}
