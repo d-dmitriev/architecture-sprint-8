@@ -9,9 +9,8 @@ spring:
 app:
   role:
     reports: ${APP_ROLE_REPORTS}
-  oids:
-    auth-server-urls: ${APP_OIDS_AUTH_SERVER_URLS}
   http:
     cors:
       headers: ${APP_HTTP_CORS_HEADERS}
       methods: ${APP_HTTP_CORS_METHODS}
+      origins: ${APP_HTTP_CORS_ORIGINS}

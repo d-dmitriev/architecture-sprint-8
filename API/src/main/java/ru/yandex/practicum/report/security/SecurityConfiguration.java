@@ -29,8 +29,8 @@ import static org.springframework.security.authorization.AuthorityReactiveAuthor
 public class SecurityConfiguration {
     @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
     String jwkSetUri;
-    @Value("${app.oids.auth-server-urls}")
-    List<String> authServerUrls;
+    @Value("${app.http.cors.origins}")
+    List<String> httpCorsOrigins;
     @Value("${app.http.cors.headers}")
     List<String> httpCorsHeaders;
     @Value("${app.http.cors.methods}")
@@ -69,7 +69,7 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(authServerUrls);
+        configuration.setAllowedOrigins(httpCorsOrigins);
         configuration.setAllowedHeaders(httpCorsHeaders);
         configuration.setAllowedMethods(httpCorsMethods);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
