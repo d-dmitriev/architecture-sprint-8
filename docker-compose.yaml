@@ -40,14 +40,18 @@ services:
       REACT_APP_KEYCLOAK_URL: http://localhost:8080
       REACT_APP_KEYCLOAK_REALM: reports-realm
       REACT_APP_KEYCLOAK_CLIENT_ID: reports-frontend
-  # backend:
-  #   build:
-  #     context: ./API
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     JWKS_URI: http://keycloak:8080/realms/reports-realm/protocol/openid-connect/certs
-  #   ports:
-  #     - "8000:8000"
+  backend:
+    build:
+      context: ./API
+      dockerfile: Dockerfile
+    environment:
+      - APP_ROLE_REPORTS=ROLE_prothetic_user
+      - APP_HTTP_CORS_HEADERS=authorization
+      - APP_HTTP_CORS_METHODS=GET
+      - APP_OIDS_AUTH_SERVER_URLS=http://localhost:3000
+      - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWK_SET_URI=http://keycloak:8080/realms/reports-realm/protocol/openid-connect/certs
+    ports:
+      - "8000:8000"
   # backend:
   #   build:
   #     context: ./quarkus
@@ -70,11 +74,11 @@ services:
   #   depends_on:
   #     - keycloak
   #     - keycloak_db
-  backend:
-    build:
-      context: ./node
-    ports:
-      - 8000:8000
-    depends_on:
-      - keycloak
-      - keycloak_db
+  # backend:
+  #   build:
+  #     context: ./node
+  #   ports:
+  #     - 8000:8000
+  #   depends_on:
+  #     - keycloak
+  #     - keycloak_db

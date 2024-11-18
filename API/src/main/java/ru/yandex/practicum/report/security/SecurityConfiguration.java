@@ -29,6 +29,14 @@ import static org.springframework.security.authorization.AuthorityReactiveAuthor
 public class SecurityConfiguration {
     @Value("${spring.security.oauth2.resourceserver.jwt.jwk-set-uri}")
     String jwkSetUri;
+    @Value("${app.oids.auth-server-urls}")
+    List<String> authServerUrls;
+    @Value("${app.http.cors.headers}")
+    List<String> httpCorsHeaders;
+    @Value("${app.http.cors.methods}")
+    List<String> httpCorsMethods;
+    @Value("${app.role.reports}")
+    String roleReports;
 
     @Bean
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
@@ -36,7 +44,7 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeExchange((authorize) -> authorize
                         .pathMatchers(HttpMethod.GET, "/reports")
-                        .access(hasAuthority("ROLE_prothetic_user"))
+                        .access(hasAuthority(roleReports))
                         .anyExchange().authenticated()
                 )
                 .oauth2ResourceServer(resourceServer -> resourceServer
@@ -61,9 +69,9 @@ public class SecurityConfiguration {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        configuration.setAllowedHeaders(Arrays.asList("authorization"));
-        configuration.setAllowedMethods(Arrays.asList("GET"));
+        configuration.setAllowedOrigins(authServerUrls);
+        configuration.setAllowedHeaders(httpCorsHeaders);
+        configuration.setAllowedMethods(httpCorsMethods);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
