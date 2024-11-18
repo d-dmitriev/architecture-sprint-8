@@ -1,3 +1,4 @@
+const { randomUUID } = require('crypto')
 const express = require('express')
 var cors = require('cors')
 const app = express()
@@ -13,7 +14,9 @@ app.use(cors())
 app.use(keycloak.middleware())
 
 app.get('/reports', keycloak.protect("realm:prothetic_user"), async (_, res) => {
-    res.json([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+    const list = []
+    for (var i = 0; i < 10; i++) list.push(randomUUID())
+    res.json(list)
 })
 
 app.listen(8000, () => {
