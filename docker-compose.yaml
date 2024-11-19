@@ -42,7 +42,7 @@ services:
       REACT_APP_KEYCLOAK_CLIENT_ID: reports-frontend
   # backend:
   #   build:
-  #     context: ./API
+  #     context: ./spring
   #     dockerfile: Dockerfile
   #   environment:
   #     - APP_ROLE_REPORTS=ROLE_prothetic_user
