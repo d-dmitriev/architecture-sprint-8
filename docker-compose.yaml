@@ -60,6 +60,7 @@ services:
       context: ./quarkus
       dockerfile: Dockerfile.native-micro
     environment:
+      - QUARKUS_HTTP_PORT=8000
       - QUARKUS_OIDC_AUTH_SERVER_URL=http://keycloak:8080/realms/reports-realm
       - QUARKUS_OIDC_APPLICATION_TYPE=service
       - QUARKUS_OIDC_TOKEN_ISSUER=http://localhost:8080/realms/reports-realm
@@ -73,7 +74,7 @@ services:
       - QUARKUS_HTTP_CORS_METHODS=GET
       # - QUARKUS_LOG_LEVEL=DEBUG
     ports:
-      - 8000:8080
+      - 8000:8000
     depends_on:
       - keycloak
       - keycloak_db
