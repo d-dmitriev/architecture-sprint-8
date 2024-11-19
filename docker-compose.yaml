@@ -43,7 +43,7 @@ services:
   # backend:
   #   build:
   #     context: ./spring
-  #     dockerfile: Dockerfile
+  #     dockerfile: Dockerfile.native
   #   environment:
   #     - APP_ROLE_REPORTS=ROLE_prothetic_user
   #     - APP_HTTP_CORS_HEADERS=authorization
