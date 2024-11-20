@@ -45,6 +45,7 @@ services:
   #     context: ./spring
   #     dockerfile: Dockerfile.native
   #   environment:
+  #     - SERVER_PORT=8000
   #     - APP_ROLE_REPORTS=ROLE_prothetic_user
   #     - APP_HTTP_CORS_HEADERS=authorization
   #     - APP_HTTP_CORS_METHODS=GET
