@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   keycloak_db:
@@ -20,7 +20,7 @@ services:
       KC_DB_URL: jdbc:postgresql://keycloak_db:5432/keycloak_db
       KC_DB_USERNAME: keycloak_user
       KC_DB_PASSWORD: keycloak_password
-    command: 
+    command:
       - start-dev
       - --import-realm
     volumes:
@@ -40,3 +40,56 @@ services:
       REACT_APP_KEYCLOAK_URL: http://localhost:8080
       REACT_APP_KEYCLOAK_REALM: reports-realm
       REACT_APP_KEYCLOAK_CLIENT_ID: reports-frontend
+  # backend:
+  #   build:
+  #     context: ./spring
+  #     dockerfile: Dockerfile.native
+  #   environment:
+  #     - SERVER_PORT=8000
+  #     - APP_ROLE_REPORTS=ROLE_prothetic_user
+  #     - APP_HTTP_CORS_HEADERS=authorization
+  #     - APP_HTTP_CORS_METHODS=GET
+  #     - APP_HTTP_CORS_ORIGINS=http://localhost:3000
+  #     - SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWK_SET_URI=http://keycloak:8080/realms/reports-realm/protocol/openid-connect/certs
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - keycloak
+  #     - keycloak_db
+  backend:
+    build:
+      context: ./quarkus
+      dockerfile: Dockerfile.native-micro
+    environment:
+      - QUARKUS_HTTP_PORT=8000
+      - QUARKUS_OIDC_AUTH_SERVER_URL=http://keycloak:8080/realms/reports-realm
+      - QUARKUS_OIDC_APPLICATION_TYPE=service
+      - QUARKUS_OIDC_TOKEN_ISSUER=http://localhost:8080/realms/reports-realm
+      - QUARKUS_OIDC_CREDENTIALS_JWT_SOURCE=bearer
+      - QUARKUS_OIDC_ROLES_SOURCE=accesstoken #default for service
+      - QUARKUS_OIDC_ROLES_ROLE_CLAIM_PATH=realm_access/roles
+      - APP_ROLE_REPORTS=prothetic_user #,administrator
+      - QUARKUS_HTTP_CORS=true
+      - QUARKUS_HTTP_CORS_ORIGINS=http://localhost:3000
+      - QUARKUS_HTTP_CORS_HEADERS=authorization
+      - QUARKUS_HTTP_CORS_METHODS=GET
+      # - QUARKUS_LOG_LEVEL=DEBUG
+    ports:
+      - 8000:8000
+    depends_on:
+      - keycloak
+      - keycloak_db
+  # backend:
+  #   build:
+  #     context: ./node
+  #   environment:
+  #     - APP_ROLE_REPORTS=realm:prothetic_user
+  #     - APP_AUTH_SERVER_URL=http://localhost:8080
+  #     - APP_KEYCLOAK_REALM=reports-realm
+  #     - APP_KEYCLOAK_CLIENT_ID=reports-frontend
+  #     - APP_REALM_PUBLIC_KEY=MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAm6TVnQQg0AIdOpB1sPidcJEVtWjJC2r6ZbSCG2wEkwYTV9p/3uBzI/d+K+WWeMHzaiYcQNmRlL+52ZrVRToQfsSv3I2YaxcSI+Br/sP2JJVVrVgWxDdGwOsqTAmMQeLB1piV/JhmdMTJNHYeRt7QQHl5PocrShmPDT/FQHOycIUpUHKRZ1Q9JJKcx0PxMpdWlNDaamNkkkvJH2cVKwgoAAaWxIk8eYxpzBhakf2rfJh8kFe+ASRFD4eLJa5FL/Yj7HazLg2zgfxL2PYCBiONhspl7/7Bkls4RCWaDNH7XJj6TxBJUj3+Fmz9Qnrd+39gw2leGrlJL1jFfk6NcxESjQIDAQAB
+  #   ports:
+  #     - 8000:8000
+  #   depends_on:
+  #     - keycloak
+  #     - keycloak_db

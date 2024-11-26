@@ -1,0 +1,16 @@
+{
+  "name": "report",
+  "version": "1.0.0",
+  "description": "Running Node.js and Express.js on Docker",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "keycloak-connect": "^26.0.5"
+  },
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,7 @@
+{
+  "realm": "${env.APP_KEYCLOAK_REALM}",
+  "bearer-only": true,
+  "auth-server-url": "${env.APP_AUTH_SERVER_URL}",
+  "resource": "${env.APP_KEYCLOAK_CLIENT_ID}",
+  "realm-public-key": "${env.APP_REALM_PUBLIC_KEY}"
+}

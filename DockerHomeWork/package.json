@@ -1,0 +1,12 @@
+{
+  "name": "home-work",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "latest"
+  },
+  "author": "DDmitriev",
+  "license": "MIT"
+}

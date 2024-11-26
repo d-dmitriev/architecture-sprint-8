@@ -1,0 +1,39 @@
+# First stage: JDK with GraalVM
+# ol9 not work microdnf update
+# FROM ghcr.io/graalvm/graalvm-community:23.0.0-ol9-20240917 AS build
+FROM ghcr.io/graalvm/graalvm-community:23.0.1-ol8-20241015 AS build
+
+# Update package lists and Install Maven
+RUN microdnf update -y && microdnf module enable maven:3.8 && microdnf install -y maven gcc glibc-devel zlib-devel libstdc++-devel gcc-c++ 
+
+WORKDIR /usr/src/app
+
+# Copy pom.xml and download dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline
+
+COPY . .
+
+RUN mvn -Pnative -Pproduction native:compile
+# Second stage: Lightweight debian-slim image
+# FROM quay.io/quarkus/quarkus-micro-image:2.0
+# FROM debian:bookworm-slim
+# FROM registry.access.redhat.com/ubi8/ubi-minimal:8.10
+# -- Stage ubi
+FROM registry.access.redhat.com/ubi9-minimal:9.2 AS ubi
+# -- Stage scratch
+FROM registry.access.redhat.com/ubi9-micro:9.2 AS micro
+# -- Final Stage
+FROM micro
+COPY --from=ubi /usr/lib64/libgcc_s.so.1 /usr/lib64/libgcc_s.so.1
+COPY --from=ubi /usr/lib64/libstdc++.so.6 /usr/lib64/libstdc++.so.6
+COPY --from=ubi /usr/lib64/libz.so.1 /usr/lib64/libz.so.1
+
+WORKDIR /app
+
+# Copy the native binary from the build stage
+COPY --from=build /usr/src/app/target/report /app/report
+
+EXPOSE 8000
+# Run the application
+CMD ["/app/report"]
